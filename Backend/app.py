@@ -2,7 +2,7 @@ import os
 import pymysql
 from flask import Flask
 from flask_cors import CORS
-from config.db import db  # Importa db desde config.db
+from config.db import SQLALCHEMY_DATABASE_URI, db  # Importa db desde config.db
 from models.user import User  # Importa los modelos
 from models.post import Post
 from models.comment import Comment
