@@ -1,9 +1,9 @@
-from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
 import os
 
-load_dotenv()  # Carga las variables desde el archivo .env
+db = SQLAlchemy()
 
-DATABASE_URL = (
-    f"mysql+pymysql://{os.getenv('MYSQLUSER')}:{os.getenv('MYSQLPASSWORD')}"
-    f"@{os.getenv('MYSQLHOST')}:{os.getenv('MYSQLPORT')}/{os.getenv('MYSQLDATABASE')}"
-)
+def init_app(app):
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "postgresql://root:1l5B6H1E8HGDNrDRbi9W01CMK5MawuyG@dpg-cuu4qr1opnds739svkog-a.oregon-postgres.render.com/pps_bayon")
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
