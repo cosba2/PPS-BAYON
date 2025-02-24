@@ -12,6 +12,8 @@ class ApiService {
     }
   }
 
+//USERS--------------------------------------------------------------------------------
+
   Future<dynamic> getUsers() async {
     final response = await http.get(Uri.parse('$baseUrl/users'));
     return _handleResponse(response);
@@ -58,4 +60,78 @@ class ApiService {
     final response = await http.delete(Uri.parse('$baseUrl/users/$id'));
     return _handleResponse(response);
   }
+
+  // COMMENTS--------------------------------------------------------------------------------
+  Future<List<dynamic>> getAllComments() async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/comments'));
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        return data ?? [];
+      } else {
+        throw Exception('Error al obtener comentarios');
+      }
+    } catch (e) {
+      print('Error en getAllComments: $e');
+      return [];
+    }
+  }
+
+  Future<Map<String, dynamic>> getCommentById(String commentId) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/comments/$commentId'));
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = json.decode(response.body);
+        return data ?? {};
+      } else {
+        throw Exception('Error al obtener el comentario');
+      }
+    } catch (e) {
+      print('Error en getCommentById: $e');
+      return {};
+    }
+  }
+
+  Future<bool> createComment(Map<String, dynamic> commentData) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/comments'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(commentData),
+      );
+
+      if (response.statusCode == 201) {
+        return true; // Se creó correctamente
+      } else {
+        print('Error al crear el comentario: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error en createComment: $e');
+      return false;
+    }
+  }
+
+  Future<bool> updateComment(String commentId, Map<String, dynamic> updatedData) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/comments/$commentId'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(updatedData),
+      );
+
+      if (response.statusCode == 200) {
+        return true; // Se actualizó correctamente
+      } else {
+        print('Error al actualizar el comentario: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error en updateComment: $e');
+      return false;
+    }
+  }
+
 }
