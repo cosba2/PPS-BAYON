@@ -1,5 +1,5 @@
-import 'package:blog_app/screens/users_screen.dart';
-import 'package:blog_app/screens/create_user_screen.dart';
+import 'package:blog_app/screens/users/users_screen.dart';
+import 'package:blog_app/screens/users/create_user_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

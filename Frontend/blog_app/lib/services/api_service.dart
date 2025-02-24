@@ -22,13 +22,27 @@ class ApiService {
     return _handleResponse(response);
   }
 
-  Future<dynamic> createUser(Map<String, dynamic> userData) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/users'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(userData),
-    );
-    return _handleResponse(response);
+  Future<void> createUser(Map<String, dynamic> userData) async {
+    final url = Uri.parse('$baseUrl/users');
+    //print('Enviando solicitud a: $url');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(userData),
+      );
+
+      //print('Código de respuesta: ${response.statusCode}'); 
+      //print('Respuesta del servidor: ${response.body}');
+
+      if (response.statusCode != 201) {
+        throw Exception('Error al crear usuario (${response.statusCode}): ${response.body}');
+      }
+    } catch (e) {
+      //print('Error en createUser: $e'); //
+      throw Exception('No se pudo crear el usuario');
+    }
   }
 
   Future<dynamic> updateUser(String id, Map<String, dynamic> userData) async {
