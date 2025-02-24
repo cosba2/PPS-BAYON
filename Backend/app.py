@@ -4,8 +4,11 @@ from models import User, Post, Comment
 from routes.users_routes import user_routes
 from routes.post_routes import post_routes
 from routes.comment_routes import comment_routes
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
+
 init_app(app)
 
 with app.app_context():

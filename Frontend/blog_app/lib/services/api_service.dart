@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = "http://127.0.0.1:5000/api"; // Cambiar si se despliega
+  final String baseUrl = "https://pps-bayon.onrender.com/api"; // Cambiar si se despliega
 
   // Obtener publicaciones
   Future<List<dynamic>> getPosts() async {
