@@ -20,8 +20,32 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.userData['name']);
-    emailController = TextEditingController(text: widget.userData['email']);
+    nameController = TextEditingController(text: widget.userData?['name'] ?? '');
+    emailController = TextEditingController(text: widget.userData?['email'] ?? '');
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _updateUser() async {
+    if (_formKey.currentState!.validate()) {
+      var userData = {
+        'name': nameController.text,
+        'email': emailController.text,
+      };
+      try {
+        await apiService.updateUser(widget.userId, userData);
+        Navigator.pop(context); // Regresar a la lista de usuarios
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al actualizar el usuario: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -56,16 +80,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    var userData = {
-                      'name': nameController.text,
-                      'email': emailController.text,
-                    };
-                    await apiService.updateUser(widget.userId, userData);
-                    Navigator.pop(context); // Regresar a la lista de usuarios
-                  }
-                },
+                onPressed: _updateUser,
                 child: Text('Actualizar Usuario'),
               ),
             ],

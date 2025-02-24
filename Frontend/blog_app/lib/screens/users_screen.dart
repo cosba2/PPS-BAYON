@@ -30,7 +30,8 @@ class UsersScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserDetailScreen(userId: user['id'] ?? '0'),
+                        builder: (context) =>
+                            UserDetailScreen(userId: user['id'] ?? '0'),
                       ),
                     );
                   },
@@ -47,60 +48,13 @@ class UsersScreen extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => CreateUserScreen(),
             ),
-          );
+          ).then((_) {
+            // Recargar la lista de usuarios después de crear uno nuevo
+            // Puedes usar un StatefulWidget y llamar a setState aquí si es necesario
+          });
         },
         child: Icon(Icons.add),
       ),
     );
   }
 }
-  final ApiService apiService = ApiService();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Usuarios')),
-      body: FutureBuilder(
-        future: apiService.getUsers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            var users = snapshot.data;
-            return ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(users[index]['name']),
-                  subtitle: Text(users[index]['email']),
-                  onTap: () {
-                    // Navegar a la pantalla de detalles del usuario
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserDetailScreen(userId: users[index]['id']),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navegar a la pantalla para crear un nuevo usuario
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CreateUserScreen(),
-            ),
-          );
-        },
-        child: Icon(Icons.add),
-      ),
-    );
-  }
