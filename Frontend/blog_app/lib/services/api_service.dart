@@ -26,7 +26,7 @@ class ApiService {
 
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> userData) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/users'), // Cambia la URL por la correcta
+      Uri.parse('$baseUrl/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

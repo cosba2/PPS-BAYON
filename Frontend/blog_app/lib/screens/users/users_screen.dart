@@ -67,7 +67,6 @@ class _UsersScreenState extends State<UsersScreen> {
                     _loadUsers();
                   }
                 },
-
               );
             },
           );
@@ -75,6 +74,7 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          // Navegar a CreateUserScreen y esperar un resultado
           bool? userCreated = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreateUserScreen()),
