@@ -63,7 +63,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         Navigator.pop(context, true); // Regresa y recarga la lista
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('⚠️ Error al eliminar el usuario: $e')),
+          SnackBar(content: Text('Error al eliminar el usuario: $e')),
         );
       }
     }
@@ -71,23 +71,23 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   Future<bool> _showDeleteConfirmation() async {
     return await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Eliminar Usuario'),
-            content: Text('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text('Cancelar'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text('Eliminar', style: TextStyle(color: Colors.red)),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Eliminar Usuario'),
+          content: Text('¿Estás seguro de que quieres eliminar este usuario? Esta acción no se puede deshacer.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Eliminar', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      ) ??
+      false;
   }
 
   @override
