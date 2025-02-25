@@ -128,6 +128,24 @@ class ApiService {
     }
   }
 
+    Future<bool> deleteComment(String commentId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/comments/$commentId'),
+      );
+
+      if (response.statusCode == 200) {
+        return true; // Comentario eliminado correctamente
+      } else {
+        print('Error al eliminar el comentario: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Error en deleteComment: $e');
+      return false;
+    }
+  }
+
 // POSTS--------------------------------------------------------------------------------
 
  // Obtener todos los posts
