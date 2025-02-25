@@ -36,3 +36,15 @@ def create_comment():
 def get_comments():
     comments = Comment.query.order_by(Comment.created_at.desc()).all()
     return jsonify([{'id_comment': c.id, 'content': c.content, 'user_id': c.user_id, 'post_id': c.post_id} for c in comments])
+
+@comment_routes.route('/comments/<int:id>', methods=['DELETE'])
+def delete_comment(id):
+    comment = Comment.query.get(id)
+    
+    if not comment:
+        return jsonify({'error': 'Comentario no encontrado'}), 404
+    
+    db.session.delete(comment)
+    db.session.commit()
+    
+    return jsonify({'message': 'Comentario eliminado'}), 200
