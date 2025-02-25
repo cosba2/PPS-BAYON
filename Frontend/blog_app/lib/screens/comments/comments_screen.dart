@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../services/api_service.dart';
 import 'comment_detail_screen.dart';
+import 'create_comment_screen.dart'; // Importa la pantalla de creación de comentarios
 
 class CommentsScreen extends StatefulWidget {
   const CommentsScreen({super.key});
@@ -11,13 +12,26 @@ class CommentsScreen extends StatefulWidget {
 
 class _CommentsScreenState extends State<CommentsScreen> {
   final ApiService apiService = ApiService();
+  late Future<List<dynamic>> _futureComments;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadComments();
+  }
+
+  void _loadComments() {
+    setState(() {
+      _futureComments = apiService.getAllComments();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Comentarios')),
       body: FutureBuilder<List<dynamic>>(
-        future: apiService.getAllComments(),
+        future: _futureComments,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -53,6 +67,23 @@ class _CommentsScreenState extends State<CommentsScreen> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // Navegar a CreateCommentScreen y esperar un resultado
+          bool? commentCreated = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateCommentScreen(),
+            ),
+          );
+
+          // Si se creó un comentario, recargar la lista
+          if (commentCreated == true) {
+            _loadComments();
+          }
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

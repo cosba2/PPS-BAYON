@@ -88,25 +88,25 @@ class ApiService {
     }
   }
 
-  Future<bool> createComment(Map<String, dynamic> commentData) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/comments'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(commentData),
-      );
+    Future<bool> createComment(Map<String, dynamic> commentData) async {
+      try {
+        final response = await http.post(
+          Uri.parse('$baseUrl/comments'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(commentData),
+        );
 
-      if (response.statusCode == 201) {
-        return true; // Se creó correctamente
-      } else {
-        print('Error al crear el comentario: ${response.body}');
+        if (response.statusCode == 201) {
+          return true; // Se creó correctamente
+        } else {
+          print('Error al crear el comentario: ${response.body}');
+          return false;
+        }
+      } catch (e) {
+        print('Error en createComment: $e');
         return false;
       }
-    } catch (e) {
-      print('Error en createComment: $e');
-      return false;
     }
-  }
 
   Future<bool> updateComment(String commentId, Map<String, dynamic> updatedData) async {
     try {

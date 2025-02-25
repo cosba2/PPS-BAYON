@@ -55,7 +55,8 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
 
                     bool success = await apiService.createComment(commentData);
                     if (success) {
-                      Navigator.pop(context); // Regresar a la lista de comentarios
+                      // Devolver `true` para indicar que se creó un comentario
+                      Navigator.pop(context, true);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error al crear el comentario')),
