@@ -1,0 +1,10 @@
+{
+    "name": "flutter_web_app",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "serve build/web"
+    },
+    "dependencies": {
+      "serve": "^14.0.0"
+    }
+  }
