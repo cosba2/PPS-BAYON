@@ -26,8 +26,7 @@ class ApiService {
 
   Future<void> createUser(Map<String, dynamic> userData) async {
     final url = Uri.parse('$baseUrl/users');
-    //print('Enviando solicitud a: $url');
-
+    
     try {
       final response = await http.post(
         url,
@@ -35,14 +34,10 @@ class ApiService {
         body: jsonEncode(userData),
       );
 
-      //print('Código de respuesta: ${response.statusCode}'); 
-      //print('Respuesta del servidor: ${response.body}');
-
       if (response.statusCode != 201) {
         throw Exception('Error al crear usuario (${response.statusCode}): ${response.body}');
       }
     } catch (e) {
-      //print('Error en createUser: $e'); //
       throw Exception('No se pudo crear el usuario');
     }
   }
@@ -61,7 +56,8 @@ class ApiService {
     return _handleResponse(response);
   }
 
-  // COMMENTS--------------------------------------------------------------------------------
+// COMMENTS--------------------------------------------------------------------------------
+
   Future<List<dynamic>> getAllComments() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/comments'));
@@ -134,4 +130,58 @@ class ApiService {
     }
   }
 
+// POSTS--------------------------------------------------------------------------------
+
+ // Obtener todos los posts
+  Future<List<dynamic>> getPosts() async {
+    final response = await http.get(Uri.parse('$baseUrl/posts'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Error al obtener los posts');
+    }
+  }
+
+  // Crear un nuevo post
+  Future<void> createPost(String title, String content, int userId) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/posts'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "title": title,
+        "content": content,
+        "user_id": userId,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Error al crear el post');
+    }
+  }
+
+  // Actualizar un post
+  Future<void> updatePost(int postId, String title, String content) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/posts/$postId'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "title": title,
+        "content": content,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Error al actualizar el post');
+    }
+  }
+
+  // Eliminar un post
+  Future<void> deletePost(int postId) async {
+    final response = await http.delete(Uri.parse('$baseUrl/posts/$postId'));
+
+    if (response.statusCode != 200) {
+      throw Exception('Error al eliminar el post');
+    }
+  }
 }

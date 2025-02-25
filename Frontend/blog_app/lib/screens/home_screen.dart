@@ -27,7 +27,22 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Espacio entre botones
+            SizedBox(height: 20),
+
+            // Botón para la sección de Posts (nuevo)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/posts');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  'Posts',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
 
             // Botón para la sección de Comentarios
             ElevatedButton(
