@@ -1,5 +1,4 @@
 import 'package:blog_app/screens/posts/posts_screen.dart';
-
 import 'screens/comments/comments_screen.dart';
 import 'screens/comments/create_comment_screen.dart';
 import 'screens/comments/comment_detail_screen.dart';

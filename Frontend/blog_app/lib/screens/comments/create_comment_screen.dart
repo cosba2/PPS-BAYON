@@ -13,6 +13,7 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
   final ApiService apiService = ApiService();
   final TextEditingController textController = TextEditingController();
   final TextEditingController postIdController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController(); // Nuevo campo para user_id
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,16 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
                   return null;
                 },
               ),
+              TextFormField(
+                controller: userIdController,
+                decoration: InputDecoration(labelText: 'User ID'), // Campo para user_id
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un User ID';
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -51,6 +62,7 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
                     var commentData = {
                       'content': textController.text,
                       'post_id': postIdController.text,
+                      'user_id': int.parse(userIdController.text), // Incluir user_id
                     };
 
                     bool success = await apiService.createComment(commentData);
