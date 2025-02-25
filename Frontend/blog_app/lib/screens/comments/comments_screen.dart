@@ -25,21 +25,21 @@ class _CommentsScreenState extends State<CommentsScreen> {
     });
   }
 
-  Future<void> _deleteComment(String commentId) async {
-    bool success = await apiService.deleteComment(commentId);
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Comentario eliminado correctamente')),
-      );
-      _loadComments(); // Recargar la lista de comentarios
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al eliminar el comentario')),
-      );
-    }
+Future<void> _deleteComment(String commentId) async {
+  bool success = await apiService.deleteComment(commentId);
+  if (success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Comentario eliminado correctamente')),
+    );
+    _loadComments(); // Recargar la lista de comentarios
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error al eliminar el comentario')),
+    );
   }
+}
 
-  @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Comentarios')),
@@ -55,38 +55,52 @@ class _CommentsScreenState extends State<CommentsScreen> {
           }
 
           var comments = snapshot.data!;
-          return ListView.builder(
+          return 
+          ListView.builder(
             itemCount: comments.length,
             itemBuilder: (context, index) {
               var comment = comments[index];
-              String commentId = comment['id']?.toString() ?? 'Desconocido';
+              String commentId = comment['id_comment']?.toString() ?? 'Desconocido';
               String text = comment['content']?.toString() ?? 'Sin texto';
               String postId = comment['post_id']?.toString() ?? 'Desconocido';
 
-              return Dismissible(
-                key: Key(commentId), // Clave única para identificar el comentario
-                direction: DismissDirection.endToStart, // Dirección del deslizamiento
-                background: Container(
-                  color: Colors.red,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(Icons.delete, color: Colors.white),
-                ),
-                onDismissed: (direction) {
-                  _deleteComment(commentId); // Eliminar el comentario
-                },
-                child: ListTile(
-                  title: Text(text),
-                  subtitle: Text('Post ID: $postId'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CommentDetailScreen(commentId: commentId),
+              return ListTile(
+                title: Text(text),
+                subtitle: Text('Post ID: $postId'),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () async {
+                    bool confirmDelete = await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Eliminar Comentario'),
+                        content: Text('¿Estás seguro de que quieres eliminar este comentario?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: Text('Cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: Text('Eliminar', style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
                       ),
                     );
+
+                    if (confirmDelete == true) {
+                      _deleteComment(commentId);
+                    }
                   },
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CommentDetailScreen(commentId: commentId),
+                    ),
+                  );
+                },
               );
             },
           );

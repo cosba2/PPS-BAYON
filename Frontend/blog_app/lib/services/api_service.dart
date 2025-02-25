@@ -128,8 +128,12 @@ class ApiService {
     }
   }
 
-    Future<bool> deleteComment(String commentId) async {
+  Future<bool> deleteComment(String commentId) async {
     try {
+      if (commentId == 'Desconocido') {
+        throw Exception('ID de comentario no válido');
+      }
+
       final response = await http.delete(
         Uri.parse('$baseUrl/comments/$commentId'),
       );
