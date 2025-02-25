@@ -39,12 +39,14 @@ def get_comments():
 
 @comment_routes.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
-    comment = Comment.query.get(id)
-    
-    if not comment:
-        return jsonify({'error': 'Comentario no encontrado'}), 404
-    
-    db.session.delete(comment)
-    db.session.commit()
-    
-    return jsonify({'message': 'Comentario eliminado'}), 200
+    try:
+        comment = Comment.query.get(id)
+        if not comment:
+            return jsonify({'error': 'Comentario no encontrado'}), 404
+        
+        db.session.delete(comment)
+        db.session.commit()
+        return jsonify({'message': 'Comentario eliminado'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error al eliminar el comentario', 'details': str(e)}), 500
