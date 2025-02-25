@@ -1,12 +1,12 @@
-import 'package:blog_app/screens/comments/edit_comment_screen.dart';
+import 'edit_comment_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class CommentDetailScreen extends StatelessWidget {
   final String commentId;
   final ApiService apiService = ApiService();
 
-  CommentDetailScreen({required this.commentId});
+  CommentDetailScreen({super.key, required this.commentId});
 
   @override
   Widget build(BuildContext context) {

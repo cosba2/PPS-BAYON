@@ -1,10 +1,12 @@
-import 'package:blog_app/screens/users/create_user_screen.dart';
-import 'package:blog_app/screens/users/edit_user_screen.dart';
-import 'package:blog_app/screens/users/users_detail.dart';
+import 'create_user_screen.dart';
+import 'edit_user_screen.dart';
+import 'users_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class UsersScreen extends StatefulWidget {
+  const UsersScreen({super.key});
+
   @override
   _UsersScreenState createState() => _UsersScreenState();
 }

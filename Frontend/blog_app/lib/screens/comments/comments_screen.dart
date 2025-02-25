@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
-import 'package:blog_app/screens/comments/comment_detail_screen.dart';
+import '../../services/api_service.dart';
+import 'comment_detail_screen.dart';
 
 class CommentsScreen extends StatefulWidget {
+  const CommentsScreen({super.key});
+
   @override
   _CommentsScreenState createState() => _CommentsScreenState();
 }

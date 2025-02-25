@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class EditCommentScreen extends StatefulWidget {
   final String commentId;
   final Map<String, dynamic> commentData;
 
-  EditCommentScreen({required this.commentId, required this.commentData});
+  const EditCommentScreen({super.key, required this.commentId, required this.commentData});
 
   @override
   _EditCommentScreenState createState() => _EditCommentScreenState();

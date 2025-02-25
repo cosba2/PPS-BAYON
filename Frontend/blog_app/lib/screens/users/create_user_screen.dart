@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class CreateUserScreen extends StatefulWidget {
+  const CreateUserScreen({super.key});
+
   @override
   _CreateUserScreenState createState() => _CreateUserScreenState();
 }

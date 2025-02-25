@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class EditUserScreen extends StatefulWidget {
   final String userId;
   final Map<String, dynamic> userData;
 
-  EditUserScreen({required this.userId, required this.userData});
+  const EditUserScreen({super.key, required this.userId, required this.userData});
 
   @override
   _EditUserScreenState createState() => _EditUserScreenState();

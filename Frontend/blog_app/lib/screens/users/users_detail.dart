@@ -1,13 +1,13 @@
-import 'package:blog_app/screens/users/edit_user_screen.dart';
+import 'edit_user_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 
 class UserDetailScreen extends StatelessWidget {
   final String userId;
   final ApiService apiService = ApiService();
 
-  UserDetailScreen({required this.userId});
+  UserDetailScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {

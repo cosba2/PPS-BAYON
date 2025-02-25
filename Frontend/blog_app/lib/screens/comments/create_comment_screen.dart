@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class CreateCommentScreen extends StatefulWidget {
+  const CreateCommentScreen({super.key});
+
   @override
   _CreateCommentScreenState createState() => _CreateCommentScreenState();
 }

@@ -1,16 +1,18 @@
-import 'package:blog_app/screens/comments/comments_screen.dart';
-import 'package:blog_app/screens/comments/create_comment_screen.dart';
-import 'package:blog_app/screens/comments/comment_detail_screen.dart';
-import 'package:blog_app/screens/users/users_screen.dart';
-import 'package:blog_app/screens/users/create_user_screen.dart';
+import 'screens/comments/comments_screen.dart';
+import 'screens/comments/create_comment_screen.dart';
+import 'screens/comments/comment_detail_screen.dart';
+import 'screens/users/users_screen.dart';
+import 'screens/users/create_user_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_app/screens/home_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
