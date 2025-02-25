@@ -13,6 +13,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   final ApiService apiService = ApiService();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  int? newUserId; // Variable para almacenar el ID del nuevo usuario
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +46,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                 },
               ),
               SizedBox(height: 20),
+              if (newUserId != null) // Mostrar el ID si está disponible
+                Text('Usuario creado con ID: $newUserId'),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -53,8 +57,15 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                       'email': emailController.text,
                     };
                     try {
-                      await apiService.createUser(userData);
-                      Navigator.pop(context); // Regresar a la lista de usuarios
+                      var response = await apiService.createUser(userData);
+                      setState(() {
+                        newUserId = response['id']; // Asignar el ID del nuevo usuario
+                      });
+                      // Mostrar un mensaje de éxito
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Usuario creado con ID: $newUserId')),
+                      );
+                      // No navegar de vuelta inmediatamente, para que el usuario vea el ID
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error al crear el usuario: $e')),
