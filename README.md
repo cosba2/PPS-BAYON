@@ -24,6 +24,19 @@ Este es un proyecto desarrollado con **Flutter** para el frontend y **Flask** co
 
 - PARA CORRER EL PROYECTO INGRESAR AL LINK DEL FRONT.
 
+## Instalación y Ejecución
+
+### Clonación del Repositorio
+Para obtener una copia local del proyecto, ejecuta el siguiente comando:
+```bash
+git clone https://github.com/cosba2/PPS-BAYON.git
+```
+Luego, accede a la carpeta correspondiente dependiendo del entorno que desees ejecutar:
+```bash
+cd PPS-BAYON/Backend  # Para el backend
+cd PPS-BAYON/Frontend  # Para el frontend
+```
+
 ## Compartir Colección de Postman
 
 Para probar los endpoints de la API, puedes importar la colección de Postman disponible en el siguiente enlace:
@@ -60,5 +73,3 @@ https://pps-bayon.onrender.com/api
 ---
 
 **Desarrollado por:** Bayon Marcos
-
-
