@@ -37,6 +37,10 @@ Para probar los endpoints de la API, puedes importar la colección de Postman di
 
 ## Endpoints principales
 
+### La ruta principal para correr el los endpoints es:
+
+https://pps-bayon.onrender.com/api
+
 ### Publicaciones
 - `GET /posts` - Obtener todas las publicaciones
 - `POST /posts` - Crear una nueva publicación
