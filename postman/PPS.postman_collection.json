@@ -1,0 +1,334 @@
+{
+	"info": {
+		"_postman_id": "796a475c-828b-4cae-9d5b-869f346582af",
+		"name": "PPS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30235870"
+	},
+	"item": [
+		{
+			"name": "POSTS",
+			"item": [
+				{
+					"name": "POSTS POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"El prunero POST de juana\",\r\n    \"content\": \"Este prunero post va a hablar de juana\",\r\n    \"user_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/posts",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POSTS PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"El primer POST de Juan\",\r\n    \"content\": \"Este primer post va a hablar de Juan y de su casa que tenia cuando era chico\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/posts/2",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"posts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POSTS DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/posts/6",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"posts",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POSTS GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/posts",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMMENTS",
+			"item": [
+				{
+					"name": "COMMENTS GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/comments",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "COMMENTS POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\":\"Este comentario ees el segundo<}\",\r\n    \"user_id\": 1,\r\n    \"post_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/comments",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "COMMENTS DELETE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/comments/1",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "USERS GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/users",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USERS GET BY ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/users/6",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USERS POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Pedro\",\r\n    \"email\": \"pedro@a.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/users",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USERS PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Juanaaaa\",\r\n    \"email\": \"juanaaaa@a.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/users/2",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USERS DELETE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://pps-bayon.onrender.com/api/users/5",
+							"protocol": "https",
+							"host": [
+								"pps-bayon",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
