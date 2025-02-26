@@ -4,7 +4,7 @@ import 'package:blog_app/services/api_service.dart';
 class EditPostScreen extends StatefulWidget {
   final Map<String, dynamic> postData;
 
-  EditPostScreen({required this.postData});
+  const EditPostScreen({super.key, required this.postData});
 
   @override
   _EditPostScreenState createState() => _EditPostScreenState();

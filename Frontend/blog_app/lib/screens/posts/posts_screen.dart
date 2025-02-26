@@ -4,6 +4,8 @@ import 'create_post_screen.dart';
 import 'edit_post_screen.dart';
 
 class PostsScreen extends StatefulWidget {
+  const PostsScreen({super.key});
+
   @override
   _PostsScreenState createState() => _PostsScreenState();
 }

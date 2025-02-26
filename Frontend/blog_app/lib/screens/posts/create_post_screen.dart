@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:blog_app/services/api_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({super.key});
+
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
