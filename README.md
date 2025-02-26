@@ -34,7 +34,7 @@ git clone https://github.com/cosba2/PPS-BAYON.git
 Luego, accede a la carpeta correspondiente dependiendo del entorno que desees ejecutar:
 ```bash
 cd PPS-BAYON/Backend  # Para el backend
-cd PPS-BAYON/Frontend  # Para el frontend
+cd PPS-BAYON/Frontend/blog_app  # Para el frontend
 ```
 
 ## Compartir Colección de Postman
