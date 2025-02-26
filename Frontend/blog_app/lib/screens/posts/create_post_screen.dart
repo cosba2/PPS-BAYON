@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:blog_app/services/api_service.dart';
+import '../../services/api_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -13,7 +13,26 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   final ApiService apiService = ApiService();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
-  final TextEditingController userIdController = TextEditingController();
+
+  List<dynamic> users = []; // Lista de usuarios
+  String? selectedUserId; // ID del usuario seleccionado
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsers(); // Cargar la lista de usuarios al iniciar la pantalla
+  }
+
+  Future<void> _loadUsers() async {
+    try {
+      var fetchedUsers = await apiService.getUsers();
+      setState(() {
+        users = fetchedUsers;
+      });
+    } catch (e) {
+      print('Error al cargar los usuarios: $e');
+    }
+  }
 
   Future<void> _createPost() async {
     if (_formKey.currentState!.validate()) {
@@ -21,7 +40,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         await apiService.createPost(
           titleController.text,
           contentController.text,
-          int.parse(userIdController.text),
+          int.parse(selectedUserId!), // Usar el ID del usuario seleccionado
         );
         Navigator.pop(context, true);
       } catch (e) {
@@ -45,18 +64,44 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               TextFormField(
                 controller: titleController,
                 decoration: InputDecoration(labelText: 'Título'),
-                validator: (value) => value!.isEmpty ? 'Ingresa un título' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un título';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: contentController,
                 decoration: InputDecoration(labelText: 'Contenido'),
-                validator: (value) => value!.isEmpty ? 'Ingresa contenido' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa contenido';
+                  }
+                  return null;
+                },
               ),
-              TextFormField(
-                controller: userIdController,
-                decoration: InputDecoration(labelText: 'ID del usuario'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Ingresa un ID de usuario' : null,
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: selectedUserId,
+                decoration: InputDecoration(labelText: 'Seleccionar Usuario'),
+                items: users.map((user) {
+                  return DropdownMenuItem(
+                    value: user['id'].toString(),
+                    child: Text(user['username'] ?? 'Sin nombre'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedUserId = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor selecciona un usuario';
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 20),
               ElevatedButton(

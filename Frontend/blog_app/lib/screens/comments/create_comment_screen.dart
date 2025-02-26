@@ -12,8 +12,40 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
   final _formKey = GlobalKey<FormState>();
   final ApiService apiService = ApiService();
   final TextEditingController textController = TextEditingController();
-  final TextEditingController postIdController = TextEditingController();
-  final TextEditingController userIdController = TextEditingController(); // Nuevo campo para user_id
+
+  List<dynamic> posts = []; // Lista de posts
+  List<dynamic> users = []; // Lista de usuarios
+  String? selectedPostId; // ID del post seleccionado
+  String? selectedUserId; // ID del usuario seleccionado
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPosts(); // Cargar la lista de posts al iniciar la pantalla
+    _loadUsers(); // Cargar la lista de usuarios al iniciar la pantalla
+  }
+
+  Future<void> _loadPosts() async {
+    try {
+      var fetchedPosts = await apiService.getPosts();
+      setState(() {
+        posts = fetchedPosts;
+      });
+    } catch (e) {
+      print('Error al cargar los posts: $e');
+    }
+  }
+
+  Future<void> _loadUsers() async {
+    try {
+      var fetchedUsers = await apiService.getUsers();
+      setState(() {
+        users = fetchedUsers;
+      });
+    } catch (e) {
+      print('Error al cargar los usuarios: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +67,46 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: postIdController,
-                decoration: InputDecoration(labelText: 'Post ID'),
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: selectedPostId,
+                decoration: InputDecoration(labelText: 'Seleccionar Post'),
+                items: posts.map((post) {
+                  return DropdownMenuItem(
+                    value: post['id'].toString(),
+                    child: Text(post['title'] ?? 'Sin título'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedPostId = value;
+                  });
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor ingresa un Post ID';
+                    return 'Por favor selecciona un post';
                   }
                   return null;
                 },
               ),
-              TextFormField(
-                controller: userIdController,
-                decoration: InputDecoration(labelText: 'User ID'), // Campo para user_id
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: selectedUserId,
+                decoration: InputDecoration(labelText: 'Seleccionar Usuario'),
+                items: users.map((user) {
+                  return DropdownMenuItem(
+                    value: user['id'].toString(),
+                    child: Text(user['username'] ?? 'Sin nombre'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedUserId = value;
+                  });
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor ingresa un User ID';
+                    return 'Por favor selecciona un usuario';
                   }
                   return null;
                 },
@@ -61,14 +117,13 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
                   if (_formKey.currentState!.validate()) {
                     var commentData = {
                       'content': textController.text,
-                      'post_id': postIdController.text,
-                      'user_id': int.parse(userIdController.text), // Incluir user_id
+                      'post_id': selectedPostId,
+                      'user_id': selectedUserId,
                     };
 
                     bool success = await apiService.createComment(commentData);
                     if (success) {
-                      // Devolver `true` para indicar que se creó un comentario
-                      Navigator.pop(context, true);
+                      Navigator.pop(context, true); // Regresar y recargar la lista
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error al crear el comentario')),
