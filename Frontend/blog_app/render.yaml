@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: flutter_web_app
-    runtime: node
-    buildCommand: npm install
-    startCommand: npm start
-    env: node
-    staticPublishPath: ./build/web
