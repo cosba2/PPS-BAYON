@@ -8,7 +8,9 @@ from flask_cors import CORS
 import os
 
 app = Flask(__name__)
-CORS(app)
+
+# Configurar CORS permitiendo el frontend en Render
+CORS(app, resources={r"/*": {"origins": "https://pps-bayon-1.onrender.com"}})
 
 init_app(app)
 
@@ -19,6 +21,7 @@ print(f"API Key cargada: {API_KEY}")
 print(f"Database URL: {DATABASE_URL}")
 
 def require_api_key(func):
+    """ Decorador para verificar API Key en rutas específicas """
     def wrapper(*args, **kwargs):
         api_key = request.headers.get("X-API-KEY") 
         if api_key != API_KEY:
@@ -27,20 +30,38 @@ def require_api_key(func):
     wrapper.__name__ = func.__name__
     return wrapper
 
-# Registrar rutas con validación de API Key
 @app.before_request
 def validate_api_key():
     """ Middleware para validar la API Key en todas las rutas """
+    if request.method == "OPTIONS":
+        return jsonify({"message": "Preflight OK"}), 200  # Permitir preflight
+
     if request.endpoint in ["static"]:
         return
-    
-    print("Headers recibidos:", request.headers)  # Agregar esto para depuración
+
+    print("Headers recibidos:", dict(request.headers))  # Depuración
     api_key = request.headers.get("X-API-KEY")
-    
+
     if api_key != API_KEY:
-        print(f"API Key inválida: {api_key}")  # Agregar esto para depuración
+        print(f"API Key inválida: {api_key}")  # Depuración
         return jsonify({"error": "Acceso no autorizado"}), 403
 
+@app.after_request
+def add_cors_headers(response):
+    """ Agregar headers CORS a todas las respuestas """
+    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
+    return response
+
+@app.route('/api/<path:path>', methods=['OPTIONS'])
+def handle_preflight(path):
+    """ Manejo de solicitudes OPTIONS (preflight) para CORS """
+    response = jsonify({"message": "Preflight OK"})
+    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
+    return response, 200
 
 # Registrar rutas
 app.register_blueprint(user_routes, url_prefix='/api')
