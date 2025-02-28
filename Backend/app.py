@@ -20,7 +20,7 @@ print(f"Database URL: {DATABASE_URL}")
 
 def require_api_key(func):
     def wrapper(*args, **kwargs):
-        api_key = request.headers.get("x-api-key") 
+        api_key = request.headers.get("X-API-KEY") 
         if api_key != API_KEY:
             return jsonify({"error": "Acceso no autorizado"}), 403
         return func(*args, **kwargs)
@@ -35,7 +35,7 @@ def validate_api_key():
         return
     
     print("Headers recibidos:", request.headers)  # Agregar esto para depuración
-    api_key = request.headers.get("x-api-key")
+    api_key = request.headers.get("X-API-KEY")
     
     if api_key != API_KEY:
         print(f"API Key inválida: {api_key}")  # Agregar esto para depuración
