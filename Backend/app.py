@@ -13,7 +13,10 @@ CORS(app)
 init_app(app)
 
 API_KEY = os.getenv("API_KEY", "default_key")
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 print(f"API Key cargada: {API_KEY}")
+print(f"Database URL: {DATABASE_URL}")
 
 def require_api_key(func):
     def wrapper(*args, **kwargs):
