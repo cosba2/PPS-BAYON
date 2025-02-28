@@ -13,6 +13,7 @@ CORS(app)
 init_app(app)
 
 API_KEY = os.getenv("API_KEY", "default_key")
+print(f"API Key cargada: {API_KEY}")
 
 def require_api_key(func):
     def wrapper(*args, **kwargs):
@@ -30,9 +31,11 @@ def validate_api_key():
     if request.endpoint in ["static"]:
         return
     
+    print("Headers recibidos:", request.headers)  # Agregar esto para depuración
     api_key = request.headers.get("X-API-KEY")
     
     if api_key != API_KEY:
+        print(f"API Key inválida: {api_key}")  # Agregar esto para depuración
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 
