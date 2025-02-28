@@ -17,7 +17,7 @@ print(f"API Key cargada: {API_KEY}")
 
 def require_api_key(func):
     def wrapper(*args, **kwargs):
-        api_key = request.headers.get("X-API-KEY") 
+        api_key = request.headers.get("x-api-key") 
         if api_key != API_KEY:
             return jsonify({"error": "Acceso no autorizado"}), 403
         return func(*args, **kwargs)
