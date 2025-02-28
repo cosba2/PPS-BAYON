@@ -32,7 +32,7 @@ def validate_api_key():
         return
     
     print("Headers recibidos:", request.headers)  # Agregar esto para depuración
-    api_key = request.headers.get("X-API-KEY")
+    api_key = request.headers.get("x--api-key")
     
     if api_key != API_KEY:
         print(f"API Key inválida: {api_key}")  # Agregar esto para depuración
