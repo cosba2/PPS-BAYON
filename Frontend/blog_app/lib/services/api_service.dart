@@ -10,16 +10,23 @@ class ApiService {
     'x-api-key': apiKey,
   };
 
-  // ==================== USERS ====================
+  // ==================== MÉTODO GENÉRICO ====================
 
-  Future<List<dynamic>> getUsers() async {
-    final response = await http.get(Uri.parse('$baseUrl/users'), headers: headers);
+  Future<dynamic> _customGet(String url) async {
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: headers);
     return _handleResponse(response);
   }
 
+  // ==================== USERS ====================
+
+  Future<List<dynamic>> getUsers() async {
+    final response = await _customGet('$baseUrl/users');
+    return response as List<dynamic>;
+  }
+
   Future<dynamic> getUserById(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/users/$id'), headers: headers);
-    return _handleResponse(response);
+    return _customGet('$baseUrl/users/$id');
   }
 
   Future<dynamic> createUser(Map<String, dynamic> user) async {
@@ -41,20 +48,22 @@ class ApiService {
   }
 
   Future<void> deleteUser(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/users/$id'), headers: headers);
+    final response = await http.delete(
+      Uri.parse('$baseUrl/users/$id'),
+      headers: headers,
+    );
     _handleResponse(response);
   }
 
   // ==================== POSTS ====================
 
   Future<List<dynamic>> getPosts() async {
-    final response = await http.get(Uri.parse('$baseUrl/posts'), headers: headers);
-    return _handleResponse(response);
+    final response = await _customGet('$baseUrl/posts');
+    return response as List<dynamic>;
   }
 
   Future<dynamic> getPostById(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/posts/$id'), headers: headers);
-    return _handleResponse(response);
+    return _customGet('$baseUrl/posts/$id');
   }
 
   Future<dynamic> createPost(Map<String, dynamic> post) async {
@@ -76,20 +85,22 @@ class ApiService {
   }
 
   Future<void> deletePost(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/posts/$id'), headers: headers);
+    final response = await http.delete(
+      Uri.parse('$baseUrl/posts/$id'),
+      headers: headers,
+    );
     _handleResponse(response);
   }
 
   // ==================== COMMENTS ====================
 
   Future<List<dynamic>> getComments() async {
-    final response = await http.get(Uri.parse('$baseUrl/comments'), headers: headers);
-    return _handleResponse(response);
+    final response = await _customGet('$baseUrl/comments');
+    return response as List<dynamic>;
   }
 
   Future<dynamic> getCommentById(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/comments/$id'), headers: headers);
-    return _handleResponse(response);
+    return _customGet('$baseUrl/comments/$id');
   }
 
   Future<dynamic> createComment(Map<String, dynamic> comment) async {
@@ -111,7 +122,10 @@ class ApiService {
   }
 
   Future<void> deleteComment(int id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/comments/$id'), headers: headers);
+    final response = await http.delete(
+      Uri.parse('$baseUrl/comments/$id'),
+      headers: headers,
+    );
     _handleResponse(response);
   }
 
