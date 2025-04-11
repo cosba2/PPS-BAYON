@@ -14,7 +14,7 @@ CORS(app, resources={r"/*": {"origins": "https://pps-bayon-1.onrender.com"}})
 
 init_app(app)
 
-API_KEY = os.getenv("API_KEY", "default_key")
+API_KEY = os.getenv("API_KEY", "marcospps")
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 print(f"API Key cargada: {API_KEY}")
@@ -32,19 +32,15 @@ def require_api_key(func):
 
 @app.before_request
 def validate_api_key():
-    """ Middleware para validar la API Key en todas las rutas """
     if request.method == "OPTIONS":
-        return jsonify({"message": "Preflight OK"}), 200  # Permitir preflight
-
+        return jsonify({"message": "Preflight OK"}), 200
     if request.endpoint in ["static"]:
         return
 
-    print("Headers recibidos:", dict(request.headers))  # Depuración
     api_key = request.headers.get("X-API-KEY")
-
     if api_key != API_KEY:
-        print(f"API Key inválida: {api_key}")  # Depuración
         return jsonify({"error": "Acceso no autorizado"}), 403
+
 
 @app.after_request
 def add_cors_headers(response):
