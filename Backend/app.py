@@ -35,15 +35,13 @@ def require_api_key(func):
 
 @app.before_request
 def validate_api_key():
-    print(f"➡️ Endpoint solicitado: {request.path}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
-    if request.endpoint in ["static"]:
+    if not request.endpoint or request.endpoint == "static":
         return
 
     api_key = request.headers.get("X-API-KEY")
     if api_key != API_KEY:
-        print("❌ API Key inválida")
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 
