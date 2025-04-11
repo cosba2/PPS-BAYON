@@ -13,6 +13,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://pps-bayon-1.onrender.com"}})
 
 init_app(app)
+with app.app_context():
+    db.create_all()
+
 
 API_KEY = os.getenv("API_KEY", "marcospps")
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -32,6 +35,7 @@ def require_api_key(func):
 
 @app.before_request
 def validate_api_key():
+    print(f"➡️ Endpoint solicitado: {request.path}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
     if request.endpoint in ["static"]:
@@ -39,6 +43,7 @@ def validate_api_key():
 
     api_key = request.headers.get("X-API-KEY")
     if api_key != API_KEY:
+        print("❌ API Key inválida")
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 
