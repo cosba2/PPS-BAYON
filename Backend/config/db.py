@@ -4,7 +4,7 @@ import os
 db = SQLAlchemy()
 
 def init_app(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "postgresql://root:1l5B6H1E8HGDNrDRbi9W01CMK5MawuyG@dpg-cuu4qr1opnds739svkog-a.oregon-postgres.render.com/pps_bayon")
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "postgresql://bdd_pps_user:aV4ajhEnqCkuiIdX9KXhHqXXLe1HKs1d@dpg-cvsjqnbuibrs73ehmsag-a/bdd_pps")
     #app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "mysql+pymysql://root:18128993@localhost/blog_db")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     API_KEY = os.getenv("API_KEY", "api_key")
