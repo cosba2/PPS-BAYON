@@ -10,7 +10,7 @@ import os
 app = Flask(__name__)
 
 # Configurar CORS permitiendo el frontend en Render
-CORS(app, resources={r"/*": {"origins": "https://pps-bayon-1.onrender.com/api"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 init_app(app)
 with app.app_context():
@@ -48,7 +48,7 @@ def validate_api_key():
 @app.after_request
 def add_cors_headers(response):
     """ Agregar headers CORS a todas las respuestas """
-    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com/api"
+    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response
@@ -57,7 +57,7 @@ def add_cors_headers(response):
 def handle_preflight(path):
     """ Manejo de solicitudes OPTIONS (preflight) para CORS """
     response = jsonify({"message": "Preflight OK"})
-    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com/api"
+    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response, 200
