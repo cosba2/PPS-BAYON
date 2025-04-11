@@ -9,63 +9,55 @@ import os
 
 app = Flask(__name__)
 
-# Configurar CORS permitiendo el frontend en Render
-CORS(app, resources={r"/*": {"origins": "*"}})
+# ====================== CONFIGURAR CORS ======================
+# Permitir acceso desde cualquier origen para pruebas (o reemplazá con tu dominio de Flutter web si lo tenés hosteado)
+CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
 
+# ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
 with app.app_context():
     db.create_all()
 
-
+# ====================== VARIABLES DE ENTORNO ======================
 API_KEY = os.getenv("API_KEY", "marcospps")
-DATABASE_URL = os.getenv("DATABASE_URL")
 
-print(f"API Key cargada: {API_KEY}")
-print(f"Database URL: {DATABASE_URL}")
-
-def require_api_key(func):
-    """ Decorador para verificar API Key en rutas específicas """
-    def wrapper(*args, **kwargs):
-        api_key = request.headers.get("X-API-KEY") 
-        if api_key != API_KEY:
-            return jsonify({"error": "Acceso no autorizado"}), 403
-        return func(*args, **kwargs)
-    wrapper.__name__ = func.__name__
-    return wrapper
-
+# ====================== VERIFICAR API KEY ======================
 @app.before_request
 def validate_api_key():
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
+
+    # Evitar validación para rutas estáticas u opciones
     if not request.endpoint or request.endpoint == "static":
         return
 
+    # Validar X-API-KEY
     api_key = request.headers.get("X-API-KEY")
     if api_key != API_KEY:
         return jsonify({"error": "Acceso no autorizado"}), 403
 
-
+# ====================== RESPUESTAS CORS ======================
 @app.after_request
 def add_cors_headers(response):
-    """ Agregar headers CORS a todas las respuestas """
-    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
+    response.headers["Access-Control-Allow-Origin"] = "*"  # O reemplazá con tu dominio web
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response
 
+# ====================== OPCIONES (Preflight) ======================
 @app.route('/api/<path:path>', methods=['OPTIONS'])
 def handle_preflight(path):
-    """ Manejo de solicitudes OPTIONS (preflight) para CORS """
     response = jsonify({"message": "Preflight OK"})
-    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response, 200
 
-# Registrar rutas
+# ====================== RUTAS ======================
 app.register_blueprint(user_routes, url_prefix='/api')
 app.register_blueprint(post_routes, url_prefix='/api')
 app.register_blueprint(comment_routes, url_prefix='/api')
 
+# ====================== EJECUTAR ======================
 if __name__ == '__main__':
     app.run(debug=True)
