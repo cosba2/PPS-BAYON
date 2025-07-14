@@ -14,7 +14,7 @@ class UserDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Detalles del Usuario')),
       body: FutureBuilder(
-        future: apiService.getUserById(userId),
+        future: apiService.getUserById(userId as int),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

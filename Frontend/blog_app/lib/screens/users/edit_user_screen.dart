@@ -45,7 +45,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         'email': emailController.text,
       };
       try {
-        await apiService.updateUser(widget.userId, userData);
+        await apiService.updateUser(int.parse(widget.userId), userData);
         Navigator.pop(context, true); // Regresa y recarga la lista
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -59,7 +59,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
     bool confirmDelete = await _showDeleteConfirmation();
     if (confirmDelete) {
       try {
-        await apiService.deleteUser(widget.userId);
+        await apiService.deleteUser(widget.userId as int);
         Navigator.pop(context, true); // Regresa y recarga la lista
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

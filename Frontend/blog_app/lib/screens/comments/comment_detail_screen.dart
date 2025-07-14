@@ -13,7 +13,7 @@ class CommentDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Detalles del Comentario')),
       body: FutureBuilder(
-        future: apiService.getCommentById(commentId),
+        future: apiService.getCommentById(commentId as int),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
