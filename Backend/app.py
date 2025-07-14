@@ -10,8 +10,8 @@ import os
 app = Flask(__name__)
 
 # ====================== CONFIGURAR CORS ======================
-# Permitir acceso desde cualquier origen para pruebas (o reemplazá con tu dominio de Flutter web si lo tenés hosteado)
-CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
+
+CORS(app, resources={r"/api/*": {"origins": "*"}}, expose_headers=["X-API-KEY"])
 
 # ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
