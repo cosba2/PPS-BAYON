@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = "https://pps-bayon-1.onrender.com/api";
+  static const String baseUrl = "https://pps-bayon-1.onrender.com";
   static const String apiKey = 'marcospps';
 
   static Map<String, String> get headers => {
     'Content-Type': 'application/json',
-    'x-api-key': apiKey,
+    'X-API-KEY': apiKey,
   };
 
   // ==================== MÉTODO GENÉRICO ====================
