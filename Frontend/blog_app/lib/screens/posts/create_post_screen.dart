@@ -37,11 +37,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Future<void> _createPost() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await apiService.createPost(
-          titleController.text,
-          contentController.text,
-          int.parse(selectedUserId!), // Usar el ID del usuario seleccionado
-        );
+        await apiService.createPost({
+          'title': titleController.text,
+          'content': contentController.text,
+          'user_id': int.parse(selectedUserId!),
+        });
+
         Navigator.pop(context, true);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(

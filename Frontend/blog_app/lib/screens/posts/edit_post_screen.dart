@@ -28,8 +28,11 @@ class _EditPostScreenState extends State<EditPostScreen> {
       try {
         await apiService.updatePost(
           widget.postData['id'],
-          titleController.text,
-          contentController.text,
+          {
+            'title': titleController.text.trim(),
+            'content': contentController.text.trim(),
+            'user_id': widget.postData['user_id'], // opcional, si tu backend lo requiere
+          },
         );
         Navigator.pop(context, true);
       } catch (e) {
