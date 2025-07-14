@@ -24,17 +24,16 @@ API_KEY = os.getenv("API_KEY", "marcospps")
 # ====================== VERIFICAR API KEY ======================
 @app.before_request
 def validate_api_key():
+    api_key = request.headers.get("X-API-KEY")
+    print(f"API KEY recibida: {api_key}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
-
-    # Evitar validación para rutas estáticas u opciones
     if not request.endpoint or request.endpoint == "static":
         return
-
-    # Validar X-API-KEY
-    api_key = request.headers.get("X-API-KEY")
     if api_key != API_KEY:
+        print("Acceso no autorizado")
         return jsonify({"error": "Acceso no autorizado"}), 403
+
 
 # ====================== RESPUESTAS CORS ======================
 @app.after_request
