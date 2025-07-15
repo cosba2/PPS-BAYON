@@ -12,7 +12,7 @@ app = Flask(__name__)
 # ====================== CONFIGURAR CORS ======================
 CORS(app, supports_credentials=True,
      resources={r"/api/*": {"origins": os.getenv("CORS_ORIGINS", "*")}},
-     allow_headers=["Content-Type", "Authorization", "X-API-KEY"],
+     allow_headers=["Content-Type", "Authorization", "X-API-KEY", "X-Requested-With"],
      expose_headers=["X-API-KEY"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
@@ -30,11 +30,13 @@ if not API_KEY:
 @app.before_request
 def validate_api_key():
     api_key = request.headers.get("Authorization")
+    print(f"Authorization Header: {api_key}")  # Log para depuración
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
     if not request.endpoint or request.endpoint == "static":
         return
-    if not api_key or api_key != f"{API_KEY}":
+    if not api_key or api_key != f"Bearer {API_KEY}":
+        print("Acceso no autorizado")  # Log para depuración
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 # ====================== RESPUESTAS CORS ======================
