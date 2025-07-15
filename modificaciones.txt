@@ -1,0 +1,5 @@
+En comentarios quiero que permita borrar comentarios y poder ver cada comentario particularmente.
+
+En users quiero que cuando se quiera eliminar un usuario te avise que tiene 
+post o comentarios asociados y que por eso no se puede eliminar.
+
