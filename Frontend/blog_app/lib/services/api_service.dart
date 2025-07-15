@@ -3,12 +3,21 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl = "https://pps-bayon.onrender.com/api";
-  static const String Authorization = 'marcospps';
 
-  static Map<String, String> get headers => {
-    'Content-Type': 'application/json',
-    'Authorization': 'marcospps',
-  };
+  // Updated headers to dynamically retrieve the authorization token
+  static Map<String, String> get headers {
+    final String token = _getAuthorizationToken(); // Retrieve token securely
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
+  // Method to securely retrieve the authorization token
+  static String _getAuthorizationToken() {
+    // Replace this with actual secure token retrieval logic
+    return 'secure_token_example';
+  }
 
   // ==================== MÉTODO GENÉRICO ====================
 

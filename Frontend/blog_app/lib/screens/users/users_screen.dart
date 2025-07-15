@@ -73,13 +73,11 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // Navegar a CreateUserScreen y esperar un resultado
           bool? userCreated = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreateUserScreen()),
           );
 
-          // Si se creó un usuario, recargar la lista
           if (userCreated == true) {
             _loadUsers();
           }
