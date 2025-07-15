@@ -29,6 +29,7 @@ API_KEY = os.getenv("API_KEY", "marcospps")
 # ====================== VERIFICAR API KEY ======================
 @app.before_request
 def validate_api_key():
+    print(f"Headers recibidos: {dict(request.headers)}")
     api_key = request.headers.get("X-API-KEY")
     print(f"API KEY recibida: {api_key}")
     if request.method == "OPTIONS":
