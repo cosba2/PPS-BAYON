@@ -13,10 +13,11 @@ app = Flask(__name__)
 
 from flask_cors import CORS
 
-CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}},
-     allow_headers=["Content-Type", "Authorization", "X-API-KEY"],
-     expose_headers=["X-API-KEY"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+CORS(app, supports_credentials=True)
+# , resources={r"/api/*": {"origins": "*"}},
+#      allow_headers=["Content-Type", "Authorization", "X-API-KEY"],
+#      expose_headers=["X-API-KEY"],
+#      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 
 # ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
@@ -30,7 +31,7 @@ API_KEY = os.getenv("API_KEY", "marcospps")
 @app.before_request
 def validate_api_key():
     print(f"Headers recibidos: {dict(request.headers)}")
-    api_key = request.headers.get("X-API-KEY")
+    api_key = request.headers.get("Authorization")
     print(f"API KEY recibida: {api_key}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
