@@ -13,11 +13,9 @@ app = Flask(__name__)
 
 from flask_cors import CORS
 
-CORS(app, supports_credentials=True)
-# , resources={r"/api/*": {"origins": "*"}},
-#      allow_headers=["Content-Type", "Authorization", "X-API-KEY"],
-#      expose_headers=["X-API-KEY"],
-#      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+CORS(app, resources={r"/*": {"origins": "*"}}, 
+     allow_headers="*", 
+     expose_headers="*")
 
 # ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
