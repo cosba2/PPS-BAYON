@@ -30,19 +30,19 @@ if not API_KEY:
 @app.before_request
 def validate_api_key():
     api_key = request.headers.get("Authorization")
-    print(f"Authorization Header: {api_key}")  # Log para depuración
+    print(f"Authorization Header: {api_key}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
     if not request.endpoint or request.endpoint == "static":
         return
     if not api_key or api_key != f"{API_KEY}":
-        print("Acceso no autorizado")  # Log para depuración
+        print("Acceso no autorizado") 
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 # ====================== RESPUESTAS CORS ======================
 @app.after_request
 def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = os.getenv("CORS_ORIGINS", "*")
+    response.headers["Access-Control-Allow-Origin"] = "https://pps-bayon-1.onrender.com"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response
