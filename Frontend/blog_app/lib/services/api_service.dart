@@ -9,7 +9,7 @@ class ApiService {
     final String token = _getAuthorizationToken(); // Retrieve token securely
     return {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
+      'Authorization': token,
     };
   }
 
