@@ -34,7 +34,7 @@ def validate_api_key():
         return jsonify({"message": "Preflight OK"}), 200
     if not request.endpoint or request.endpoint == "static":
         return
-    if not api_key or api_key != f"Bearer {API_KEY}":
+    if not api_key or api_key != f"{API_KEY}":
         return jsonify({"error": "Acceso no autorizado"}), 403
 
 # ====================== RESPUESTAS CORS ======================
