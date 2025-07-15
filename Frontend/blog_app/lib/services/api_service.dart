@@ -11,7 +11,7 @@ class ApiService {
   static Map<String, String> get headers {
     final String token = _getAuthorizationToken(); 
     return {
-      'Authorization': 'marcospps',
+      'Authorization': token,
       'Content-Type': 'application/json',
     };
   }
