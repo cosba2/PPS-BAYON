@@ -13,10 +13,8 @@ class ApiService {
     };
   }
 
-  // Method to securely retrieve the authorization token
   static String _getAuthorizationToken() {
-    // Replace this with actual secure token retrieval logic
-    return 'secure_token_example';
+    return 'marcospps';
   }
 
   // ==================== MÉTODO GENÉRICO ====================
