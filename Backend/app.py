@@ -11,10 +11,11 @@ app = Flask(__name__)
 
 # ====================== CONFIGURAR CORS ======================
 CORS(app, supports_credentials=True,
-     resources={r"/api/*": {"origins": os.getenv("CORS_ORIGINS", "*")}},
+     resources={r"/api/*": {"origins": "https://pps-bayon-1.onrender.com"}},
      allow_headers=["Content-Type", "Authorization", "X-API-KEY", "X-Requested-With"],
      expose_headers=["X-API-KEY"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+
 
 # ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
