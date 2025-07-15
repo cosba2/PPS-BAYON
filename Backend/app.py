@@ -10,13 +10,11 @@ import os
 app = Flask(__name__)
 
 # ====================== CONFIGURAR CORS ======================
-
 CORS(app, supports_credentials=True,
-     resources={r"/api/*": {"origins": "*"}},
+     resources={r"/api/*": {"origins": os.getenv("CORS_ORIGINS", "*")}},
      allow_headers=["Content-Type", "Authorization", "X-API-KEY"],
      expose_headers=["X-API-KEY"],
      methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-
 
 # ====================== CONFIGURAR BASE DE DATOS ======================
 init_app(app)
@@ -24,27 +22,25 @@ with app.app_context():
     db.create_all()
 
 # ====================== VARIABLES DE ENTORNO ======================
-API_KEY = os.getenv("API_KEY", "marcospps")
+API_KEY = os.getenv("API_KEY")
+if not API_KEY:
+    raise ValueError("La variable de entorno API_KEY no está configurada.")
 
 # ====================== VERIFICAR API KEY ======================
 @app.before_request
 def validate_api_key():
-    print(f"Headers recibidos: {dict(request.headers)}")
     api_key = request.headers.get("Authorization")
-    print(f"API KEY recibida: {api_key}")
     if request.method == "OPTIONS":
         return jsonify({"message": "Preflight OK"}), 200
     if not request.endpoint or request.endpoint == "static":
         return
-    if api_key != API_KEY:
-        print("Acceso no autorizado")
+    if not api_key or api_key != f"Bearer {API_KEY}":
         return jsonify({"error": "Acceso no autorizado"}), 403
-
 
 # ====================== RESPUESTAS CORS ======================
 @app.after_request
 def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"  # O reemplazá con tu dominio web
+    response.headers["Access-Control-Allow-Origin"] = os.getenv("CORS_ORIGINS", "*")
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response
@@ -53,7 +49,7 @@ def add_cors_headers(response):
 @app.route('/api/<path:path>', methods=['OPTIONS'])
 def handle_preflight(path):
     response = jsonify({"message": "Preflight OK"})
-    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Origin"] = os.getenv("CORS_ORIGINS", "*")
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-API-KEY"
     return response, 200
@@ -65,4 +61,4 @@ app.register_blueprint(comment_routes, url_prefix='/api')
 
 # ====================== EJECUTAR ======================
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.getenv("FLASK_DEBUG", "True").lower() == "true")
