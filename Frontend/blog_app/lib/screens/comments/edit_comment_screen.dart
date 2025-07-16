@@ -52,7 +52,7 @@ class _EditCommentScreenState extends State<EditCommentScreen> {
                       'content': textController.text.trim(),
                       'post_id': postIdController.text.trim(),
                     };
-                    await apiService.updateComment(widget.commentId as int, commentData);
+                    await ApiService.updateComment(widget.commentId as int, commentData);
                     Navigator.pop(context);
                   }
                 },

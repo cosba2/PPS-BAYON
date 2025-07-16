@@ -22,7 +22,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   void _loadUsers() {
     setState(() {
-      _futureUsers = apiService.getUsers().then((dynamic result) {
+      _futureUsers = ApiService.getUsers().then((dynamic result) {
         return result as List<dynamic>;
       });
     });

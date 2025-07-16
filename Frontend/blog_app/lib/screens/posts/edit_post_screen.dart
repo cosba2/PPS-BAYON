@@ -26,7 +26,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   Future<void> _updatePost() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await apiService.updatePost(
+        await ApiService.updatePost(
           widget.postData['id'],
           {
             'title': titleController.text.trim(),

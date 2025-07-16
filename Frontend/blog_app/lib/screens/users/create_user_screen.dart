@@ -57,7 +57,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                       'email': emailController.text,
                     };
                     try {
-                      var response = await apiService.createUser(userData);
+                      var response = await ApiService.createUser(userData);
                       setState(() {
                         newUserId = response['id'];
                       });

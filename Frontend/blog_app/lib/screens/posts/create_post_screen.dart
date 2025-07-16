@@ -25,7 +25,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   Future<void> _loadUsers() async {
     try {
-      var fetchedUsers = await apiService.getUsers();
+      var fetchedUsers = await ApiService.getUsers();
       setState(() {
         users = fetchedUsers;
       });
@@ -37,7 +37,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Future<void> _createPost() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await apiService.createPost({
+        await ApiService.createPost({
           'title': titleController.text,
           'content': contentController.text,
           'user_id': int.parse(selectedUserId!),

@@ -27,7 +27,7 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
 
   Future<void> _loadPosts() async {
     try {
-      var fetchedPosts = await apiService.getPosts();
+      var fetchedPosts = await ApiService.getPosts();
       setState(() {
         posts = fetchedPosts;
       });
@@ -38,7 +38,7 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
 
   Future<void> _loadUsers() async {
     try {
-      var fetchedUsers = await apiService.getUsers();
+      var fetchedUsers = await ApiService.getUsers();
       setState(() {
         users = fetchedUsers;
       });
@@ -121,7 +121,7 @@ class _CreateCommentScreenState extends State<CreateCommentScreen> {
                       'user_id': selectedUserId,
                     };
 
-                    bool success = await apiService.createComment(commentData);
+                    bool success = await ApiService.createComment(commentData);
                     if (success) {
                       Navigator.pop(context, true); // Regresar y recargar la lista
                     } else {

@@ -22,13 +22,13 @@ class _PostsScreenState extends State<PostsScreen> {
 
   void _loadPosts() {
     setState(() {
-      _futurePosts = apiService.getPosts();
+      _futurePosts = ApiService.getPosts();
     });
   }
 
   void _deletePost(int postId) async {
     try {
-      await apiService.deletePost(postId);
+      await ApiService.deletePost(postId);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Post eliminado correctamente')),
       );

@@ -22,7 +22,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   void _loadComments() {
     setState(() {
-      _futureComments = apiService.getComments();
+      _futureComments = ApiService.getComments();
     });
   }
 
