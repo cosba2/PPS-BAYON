@@ -12,34 +12,46 @@ class ApiService {
     }
   }
 
+  Map<String, String> getHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      'X-API-KEY': 'marcospps', // Cambiá esto por tu clave real
+    };
+  }
+
 //USERS--------------------------------------------------------------------------------
 
   Future<dynamic> getUsers() async {
-    final response = await http.get(Uri.parse('$baseUrl/users'));
+    final response = await http.get(
+      Uri.parse('$baseUrl/users'),
+      headers: getHeaders(),
+    );
     return _handleResponse(response);
   }
 
-  Future<dynamic> getUserById(String id) async {
-    final response = await http.get(Uri.parse('$baseUrl/users/$id'));
+  Future<dynamic> getUserById(String id) async {  
+    final response = await http.get(
+      Uri.parse('$baseUrl/users/$id'),
+      headers: getHeaders(),
+    );
+
     return _handleResponse(response);
   }
 
   Future<Map<String, dynamic>> createUser(Map<String, dynamic> userData) async {
     final response = await http.post(
       Uri.parse('$baseUrl/users'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: getHeaders(),
       body: jsonEncode(userData),
     );
 
     if (response.statusCode == 201) {
-      return jsonDecode(response.body); // Devuelve el JSON con el ID
+      return jsonDecode(response.body);
     } else {
       throw Exception('Error al crear el usuario');
     }
   }
-
+// que pasa aca con update?
   Future<dynamic> updateUser(String id, Map<String, dynamic> userData) async {
     final response = await http.put(
       Uri.parse('$baseUrl/users/$id'),
@@ -50,7 +62,9 @@ class ApiService {
   }
 
   Future<dynamic> deleteUser(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/users/$id'));
+    final response = await http.delete(Uri.parse('$baseUrl/users/$id'),
+      headers: getHeaders(),
+    );
     return _handleResponse(response);
   }
 
