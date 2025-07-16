@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/api_service.dart';
+import 'package:blog_app/services/api_service.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -10,52 +10,49 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService();
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController contentController = TextEditingController();
-
-  List<dynamic> users = []; // Lista de usuarios
-  String? selectedUserId; // ID del usuario seleccionado
+  final _titleController = TextEditingController();
+  final _bodyController = TextEditingController();
+  final _apiService = ApiService();
+  bool _isSubmitting = false;
 
   @override
-  void initState() {
-    super.initState();
-    _loadUsers(); // Cargar la lista de usuarios al iniciar la pantalla
+  void dispose() {
+    _titleController.dispose();
+    _bodyController.dispose();
+    super.dispose();
   }
 
-  Future<void> _loadUsers() async {
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isSubmitting = true;
+    });
+
     try {
-      var fetchedUsers = await apiService.getUsers();
-      setState(() {
-        users = fetchedUsers;
+      await _apiService.createPost({
+        'title': _titleController.text,
+        'body': _bodyController.text,
       });
-    } catch (e) {
-      print('Error al cargar los usuarios: $e');
-    }
-  }
 
-  Future<void> _createPost() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await apiService.createPost({
-          'title': titleController.text,
-          'content': contentController.text,
-          'user_id': int.parse(selectedUserId!),
-        });
-
-        Navigator.pop(context, true);
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al crear el post: $e')),
-        );
-      }
+      Navigator.pop(context, true);
+    } on ApiException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.message}')),
+      );
+    } finally {
+      setState(() {
+        _isSubmitting = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Crear Post')),
+      appBar: AppBar(
+        title: const Text('Nuevo Post'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -63,8 +60,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           child: Column(
             children: [
               TextFormField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Título'),
+                controller: _titleController,
+                decoration: const InputDecoration(labelText: 'Título'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingresa un título';
@@ -73,8 +70,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 },
               ),
               TextFormField(
-                controller: contentController,
-                decoration: InputDecoration(labelText: 'Contenido'),
+                controller: _bodyController,
+                decoration: const InputDecoration(labelText: 'Contenido'),
+                maxLines: 5,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingresa contenido';
@@ -82,32 +80,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
-              DropdownButtonFormField<String>(
-                value: selectedUserId,
-                decoration: InputDecoration(labelText: 'Seleccionar Usuario'),
-                items: users.map((user) {
-                  return DropdownMenuItem(
-                    value: user['id'].toString(),
-                    child: Text(user['username'] ?? 'Sin nombre'),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedUserId = value;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor selecciona un usuario';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _createPost,
-                child: Text('Crear Post'),
+                onPressed: _isSubmitting ? null : _submitForm,
+                child: _isSubmitting
+                    ? const CircularProgressIndicator()
+                    : const Text('Crear Post'),
               ),
             ],
           ),

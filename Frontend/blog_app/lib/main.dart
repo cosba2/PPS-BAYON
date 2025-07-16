@@ -1,8 +1,12 @@
-import 'package:blog_app/screens/posts/posts_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'screens/comments/comments_screen.dart';
-import 'screens/users/users_screen.dart';
+import 'package:blog_app/models/post.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:blog_app/screens/home_screen.dart';
+// import 'package:blog_app/screens/users/users_screen.dart';
+import 'package:blog_app/screens/posts/posts_screen.dart';
+// import 'package:blog_app/screens/comments/comments_screen.dart';
+import 'package:blog_app/screens/posts/create_post_screen.dart';
+import 'package:blog_app/screens/posts/update_post_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +25,23 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/posts',
+      initialRoute: '/',
       routes: {
-        '/users': (context) => const UsersScreen(),
+        // '/': (context) => const HomeScreen(),
+        // '/users': (context) => const UsersScreen(),
         '/posts': (context) => const PostsScreen(),
-        '/comments': (context) => const CommentsScreen(),
+        // '/comments': (context) => const CommentsScreen(),
+        '/createPost': (context) => const CreatePostScreen(),
+      },
+      onGenerateRoute: (settings) {
+        // Manejar rutas con parámetros
+        if (settings.name == '/updatePost') {
+          final post = settings.arguments as Post;
+          return MaterialPageRoute(
+            builder: (context) => UpdatePostScreen(post: post),
+          );
+        }
+        return null;
       },
       debugShowCheckedModeBanner: false,
     );

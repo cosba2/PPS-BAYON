@@ -1,6 +1,6 @@
-import 'package:blog_app/screens/comments/create_comment_screen.dart';
+import 'create_comment_screen.dart';
 import 'package:flutter/material.dart';
-import '../../services/api_service.dart';
+import '../../Frontend/blog_app/lib/services/api_service.dart';
 import 'comment_detail_screen.dart';
 
 class CommentsScreen extends StatefulWidget {

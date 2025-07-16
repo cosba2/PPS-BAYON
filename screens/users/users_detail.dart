@@ -1,6 +1,6 @@
 import 'edit_user_screen.dart';
 import 'package:flutter/material.dart';
-import '../../services/api_service.dart';
+import '../../Frontend/blog_app/lib/services/api_service.dart';
 
 
 class UserDetailScreen extends StatelessWidget {
