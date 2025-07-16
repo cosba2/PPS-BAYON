@@ -1,14 +1,13 @@
 import 'package:blog_app/screens/posts/posts_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/comments/comments_screen.dart';
-import 'screens/comments/create_comment_screen.dart';
-import 'screens/comments/comment_detail_screen.dart';
 import 'screens/users/users_screen.dart';
-import 'screens/users/create_user_screen.dart';
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env"); // Cargar variables de entorno
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,26 +16,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Flask App',
-      home: HomeScreen(),
+      title: 'Blog App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      initialRoute: '/posts',
       routes: {
-        '/users': (context) => UsersScreen(),
-        '/createUser': (context) => CreateUserScreen(),
-         '/posts': (context) => PostsScreen(),
-        '/comments': (context) => CommentsScreen(),
-        '/createComment': (context) => CreateCommentScreen(),
+        '/users': (context) => const UsersScreen(),
+        '/posts': (context) => const PostsScreen(),
+        '/comments': (context) => const CommentsScreen(),
       },
-      onGenerateRoute: (settings) {
-        if (settings.name == '/commentDetail') {
-          final args = settings.arguments as Map<String, dynamic>?;
-          if (args != null && args.containsKey('commentId')) {
-            return MaterialPageRoute(
-              builder: (context) => CommentDetailScreen(commentId: args['commentId'] ?? ''),
-            );
-          }
-        }
-        return null;
-      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
