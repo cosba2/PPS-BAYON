@@ -62,7 +62,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         List<dynamic> data = json.decode(response.body);
-        return data ?? [];
+        return data;
       } else {
         throw Exception('Error al obtener comentarios');
       }
@@ -78,7 +78,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> data = json.decode(response.body);
-        return data ?? {};
+        return data;
       } else {
         throw Exception('Error al obtener el comentario');
       }
