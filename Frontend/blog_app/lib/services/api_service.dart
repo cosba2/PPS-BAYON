@@ -26,10 +26,8 @@ class ApiService {
   // ======================= USERS =======================
 
   Future<List<dynamic>> getUsers() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/users'),
-      headers: getHeaders(),
-    );
+    final headers = await getHeaders();
+    final response = await http.get(Uri.parse('$baseUrl/users'), headers: headers);
     return _handleResponse(response) as List<dynamic>;
   }
 
