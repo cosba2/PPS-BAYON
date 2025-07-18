@@ -29,7 +29,7 @@ def validar_api_key():
     # Verificación de API KEY
     api_key = request.headers.get("X-API-KEY")
     if api_key != API_KEY:
-        return jsonify({"error": "API Key inválida"}), 401
+        return jsonify({"error": "API Key invalida"}), 401
 
 
 # ========== RUTA PÚBLICA ==========
