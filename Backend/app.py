@@ -10,58 +10,51 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv("X-API-KEY")
+API_KEY = os.getenv("API_KEY")  # Usa la variable de entorno correcta
 
 app = Flask(__name__)
 
+# ✅ CORS solo para rutas /api y para tu frontend
 CORS(app, supports_credentials=True, resources={
-    r"/api/*": {"origins": "https://pps-bayon-1.onrender.com/api"}
+    r"/api/*": {"origins": "https://pps-bayon-1.onrender.com"}
 })
 
+# ✅ Middleware unificado
 @app.before_request
-def verify_api_key():
-    api_key = request.headers.get('X-API-KEY')
-    print(f'API KEY recibida: {api_key}')  # Esto te ayuda a depurar
-    if api_key != 'marcospps':
-        return jsonify({'error': 'Unauthorized'}), 401
-
-
-# ========== MIDDLEWARE DE AUTORIZACIÓN POR API KEY ==========
-@app.before_request
-def validar_api_key():
-    # Permitir preflight de CORS (Flutter web usa OPTIONS)
+def verificar_api_key():
     if request.method == 'OPTIONS':
-        return
+        return  # Preflight CORS permitido
 
-    # Rutas públicas que no necesitan API KEY
-    rutas_publicas = ['/login']
-
+    # Rutas que no requieren API KEY
+    rutas_publicas = ['/', '/login']
     if request.path in rutas_publicas:
         return
 
-    # Verificación de API KEY
-    api_key = request.headers.get("X-API-KEY")
-    if api_key != API_KEY:
-        return jsonify({"error": "API Key invalida"}), 401
+    # Solo verificar API KEY en rutas que empiezan con /api
+    if request.path.startswith('/api'):
+        api_key = request.headers.get("X-API-KEY")
+        print(f'API KEY recibida: {api_key}')
+        if api_key != API_KEY:
+            return jsonify({"error": "API Key inválida"}), 401
 
+# ✅ Ruta pública para probar si la API está viva
+@app.route("/")
+def health_check():
+    return "API corriendo correctamente 🚀", 200
 
-# ========== RUTA PÚBLICA ==========
 @app.route("/login", methods=["POST"])
 def login():
     return jsonify({"msg": "Login permitido sin API Key"})
 
-
-# ========== INICIALIZACIÓN DE LA APP ==========
+# Inicializar base de datos y Blueprints
 init_app(app)
 
 with app.app_context():
-    db.create_all()  # Crea las tablas en PostgreSQL si no existen
+    db.create_all()
 
-# Registrar Blueprints
 app.register_blueprint(user_routes, url_prefix='/api')
 app.register_blueprint(post_routes, url_prefix='/api')
 app.register_blueprint(comment_routes, url_prefix='/api')
 
-# ========== EJECUCIÓN LOCAL ==========
 if __name__ == '__main__':
     app.run(debug=True)

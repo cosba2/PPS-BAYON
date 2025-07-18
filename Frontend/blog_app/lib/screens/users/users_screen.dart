@@ -22,7 +22,9 @@ class _UsersScreenState extends State<UsersScreen> {
 
   void _loadUsers() {
     setState(() {
-      _futureUsers = apiService.getUsers();
+      _futureUsers = apiService.getUsers().then((dynamic result) {
+        return result as List<dynamic>;
+      });
     });
   }
 
@@ -71,11 +73,13 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          // Navegar a CreateUserScreen y esperar un resultado
           bool? userCreated = await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreateUserScreen()),
           );
 
+          // Si se creó un usuario, recargar la lista
           if (userCreated == true) {
             _loadUsers();
           }
