@@ -1,1 +1,4 @@
 avances.txt
+.env
+.env.local
+.env.development.local

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from config.db import db, init_app
 from models import User, Post, Comment
 from routes.users_routes import user_routes
@@ -12,6 +13,18 @@ load_dotenv()
 API_KEY = os.getenv("X-API-KEY")
 
 app = Flask(__name__)
+
+CORS(app, supports_credentials=True, resources={
+    r"/api/*": {"origins": "https://pps-bayon-1.onrender.com"}
+})
+
+@app.before_request
+def verify_api_key():
+    api_key = request.headers.get('X-API-KEY')
+    print(f'API KEY recibida: {api_key}')  # Esto te ayuda a depurar
+    if api_key != 'marcospps':
+        return jsonify({'error': 'Unauthorized'}), 401
+
 
 # ========== MIDDLEWARE DE AUTORIZACIÓN POR API KEY ==========
 @app.before_request
