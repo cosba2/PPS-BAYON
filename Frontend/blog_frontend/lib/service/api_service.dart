@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl = 'https://pps-bayon.onrender.com/api';
-  static const String apiKey = 'tu_api_key_aqui'; // Reemplazá con tu clave
+  static const String apiKey = 'marcospps';
 
   static Future<List<User>> getUsers() async {
     final response = await http.get(
