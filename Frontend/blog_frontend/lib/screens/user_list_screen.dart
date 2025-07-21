@@ -1,6 +1,7 @@
+import 'package:blog_frontend/models/user_model.dart';
 import 'package:blog_frontend/service/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_frontend/models/user_model.dart';
+import 'create_user_screen.dart';
 
 class UserListScreen extends StatefulWidget {
   @override
@@ -8,12 +9,12 @@ class UserListScreen extends StatefulWidget {
 }
 
 class _UserListScreenState extends State<UserListScreen> {
-  late Future<List<User>> futureUsers;
+  late Future<List<User>> users;
 
   @override
   void initState() {
     super.initState();
-    futureUsers = ApiService.getUsers();
+    users = ApiService.getUsers();
   }
 
   @override
@@ -21,27 +22,35 @@ class _UserListScreenState extends State<UserListScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Usuarios')),
       body: FutureBuilder<List<User>>(
-        future: futureUsers,
+        future: users,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          if (snapshot.hasError)
             return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No hay usuarios.'));
-          } else {
-            final users = snapshot.data!;
-            return ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(users[index].username),
-                  subtitle: Text(users[index].email),
-                );
-              },
-            );
-          }
+
+          final data = snapshot.data!;
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) => ListTile(
+              title: Text(data[index].username),
+              subtitle: Text(data[index].email),
+            ),
+          );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => CreateUserScreen()),
+          ).then((_) {
+            setState(() {
+              users = ApiService.getUsers(); // Refresca la lista
+            });
+          });
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
