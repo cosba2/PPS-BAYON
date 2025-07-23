@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")  # Usa la variable de entorno correcta
+API_KEY = os.getenv("API_KEY")
 
 app = Flask(__name__)
 
@@ -26,7 +26,12 @@ CORS(app, supports_credentials=True, resources={
 @app.before_request
 def verificar_api_key():
     if request.method == 'OPTIONS':
-        return  # Preflight CORS permitido
+        from flask import make_response
+        response = make_response()
+        response.headers.add("Access-Control-Allow-Origin", "*")  # O tu dominio frontend
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type, X-API-KEY")
+        response.headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+        return response, 200
 
     # Rutas que no requieren API KEY
     rutas_publicas = ['/', '/login']
@@ -39,6 +44,7 @@ def verificar_api_key():
         print(f'API KEY recibida: {api_key}')
         if api_key != API_KEY:
             return jsonify({"error": "API Key inválida"}), 401
+
 
 # ✅ Ruta pública para probar si la API está viva
 @app.route("/")
