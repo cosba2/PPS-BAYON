@@ -28,7 +28,7 @@ def verificar_api_key():
     if request.method == 'OPTIONS':
         from flask import make_response
         response = make_response()
-        response.headers.add("Access-Control-Allow-Origin", "*")  # O tu dominio frontend
+        response.headers.add("Access-Control-Allow-Origin", "*")
         response.headers.add("Access-Control-Allow-Headers", "Content-Type, X-API-KEY")
         response.headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         return response, 200
