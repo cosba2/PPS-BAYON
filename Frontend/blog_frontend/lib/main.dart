@@ -13,11 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'App Usuarios',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: CreateUserScreen(),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => UserListScreen(),
-        '/createusers': (context) => CreateUserScreen(),
-      },
     );
   }
 }
+  
