@@ -1,3 +1,4 @@
+import 'package:blog_frontend/screens/create_user_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/user_list_screen.dart';
 
@@ -11,7 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Usuarios',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: UserListScreen(),
+      home: CreateUserScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => UserListScreen(),
+        '/createusers': (context) => CreateUserScreen(),
+      },
     );
   }
 }
