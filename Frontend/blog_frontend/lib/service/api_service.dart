@@ -38,4 +38,31 @@ class ApiService {
 
     return response.statusCode == 201;
   }
+
+    static Future<bool> updateUser(int id, String username, String email) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/users/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': apiKey,
+      },
+      body: json.encode({
+        'username': username,
+        'email': email,
+      }),
+    );
+
+    return response.statusCode == 200;
+  }
+
+  static Future<bool> deleteUser(int id) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/users/$id'),
+      headers: {
+        'X-API-KEY': apiKey,
+      },
+    );
+
+    return response.statusCode == 200;
+  }
 }
