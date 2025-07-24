@@ -3,18 +3,10 @@ import 'package:blog_frontend/models/posts_model.dart';
 import 'package:blog_frontend/models/user_model.dart';
 import 'package:blog_frontend/models/comments_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 
 class ApiService {
-  static final String baseUrl = dotenv.env['API_URL']!;
-  static final String apiKey = dotenv.env['API_KEY']!;
-
-  static Map<String, String> get headers => {
-    'Content-Type': 'application/json',
-    'X-API-KEY': apiKey,
-  };
-
+  static const String baseUrl = 'https://pps-bayon.onrender.com/api';
+  static const String apiKey = 'marcospps';
 
   // USERS
   static Future<List<User>> getUsers() async {

@@ -15,7 +15,7 @@ API_KEY = os.getenv("API_KEY")
 app = Flask(__name__)
 
 CORS(app, supports_credentials=True, resources={
-    r"/api/*": {"origins": ["https://pps-bayon-1.onrender.com"],
+    r"/api/*": {"origins": "*",
                  "allow_headers": ["Content-Type", "X-API-KEY"],
                  "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
                 }
