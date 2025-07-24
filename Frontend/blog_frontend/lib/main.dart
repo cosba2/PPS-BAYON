@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'screens/user_list_screen.dart';
+import 'package:blog_frontend/screens/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  await dotenv.load();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App Usuarios',
+      title: 'Blog App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: UserListScreen(),
+      home: const HomeScreen(),
     );
   }
 }
