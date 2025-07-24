@@ -14,15 +14,13 @@ API_KEY = os.getenv("API_KEY")
 
 app = Flask(__name__)
 
-# ✅ CORS solo para rutas /api y para tu frontend
 CORS(app, supports_credentials=True, resources={
-    r"/api/*": {"origins": "*",
+    r"/api/*": {"origins": ["https://pps-bayon-1.onrender.com"],
                  "allow_headers": ["Content-Type", "X-API-KEY"],
                  "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
                 }
 })
 
-# ✅ Middleware unificado
 @app.before_request
 def verificar_api_key():
     if request.method == 'OPTIONS':
@@ -33,7 +31,6 @@ def verificar_api_key():
         response.headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
         return response, 200
 
-    # Rutas que no requieren API KEY
     rutas_publicas = ['/', '/login']
     if request.path in rutas_publicas:
         return
@@ -46,10 +43,10 @@ def verificar_api_key():
             return jsonify({"error": "API Key inválida"}), 401
 
 
-# ✅ Ruta pública para probar si la API está viva
+# Ruta pública para probar si la API está viva
 @app.route("/")
 def health_check():
-    return "API corriendo correctamente 🚀", 200
+    return "API corriendo correctamente ", 200
 
 @app.route("/login", methods=["POST"])
 def login():
