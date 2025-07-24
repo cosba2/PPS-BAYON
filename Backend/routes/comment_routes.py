@@ -31,10 +31,10 @@ def create_comment():
         return jsonify({"error": str(e)}), 500
 
 
-    @comment_routes.route('/comments', methods=['GET'])
-    def get_comments():
-        comments = Comment.query.order_by(Comment.created_at.desc()).all()
-        return jsonify([{'id_comment': c.id, 'content': c.content, 'user_id': c.user_id, 'post_id': c.post_id} for c in comments])
+@comment_routes.route('/comments', methods=['GET'])
+def get_comments():
+    comments = Comment.query.order_by(Comment.created_at.desc()).all()
+    return jsonify([{'id_comment': c.id, 'content': c.content, 'user_id': c.user_id, 'post_id': c.post_id} for c in comments])
 
 @comment_routes.route('/comments/<int:id>', methods=['DELETE'])
 def delete_comment(id):
