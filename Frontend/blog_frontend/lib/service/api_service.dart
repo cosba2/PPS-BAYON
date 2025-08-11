@@ -1,12 +1,13 @@
 import 'dart:convert';
+import 'package:blog_frontend/api_config.dart';
 import 'package:blog_frontend/models/posts_model.dart';
 import 'package:blog_frontend/models/user_model.dart';
 import 'package:blog_frontend/models/comments_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'https://pps-bayon.onrender.com/api';
-  static const String apiKey = 'marcospps';
+static String baseUrl = ApiConfig.baseUrl;
+static String apiKey = ApiConfig.apiKey;
 
   // USERS
   static Future<List<User>> getUsers() async {
